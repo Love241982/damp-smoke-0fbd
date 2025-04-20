@@ -1,6 +1,5 @@
 # This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-            - name: First interaction
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packagesname: First interaction
   uses: actions/first-interaction@v1.3.0
   with:
     # Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}
@@ -43,3 +42,10 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+- name: Cache Node modules
+  uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-node-
